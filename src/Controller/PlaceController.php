@@ -16,4 +16,13 @@ class PlaceController extends AbstractController
             'path' => 'src/Controller/PlaceController.php',
         ]);
     }
+
+    #[Route('/place', name: 'place.getAll')]
+    public function getAllplace(): JsonResponse
+    {
+        return $this->json([
+            'message' => 'Welcome to your new controller!',
+            'path' => 'src/Controller/PlaceController.php',
+        ]);
+    }
 }
