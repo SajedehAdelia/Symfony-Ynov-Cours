@@ -31,9 +31,6 @@ class AppFixtures extends Fixture
         $place->setPlaceType($this->faker->words(3, true));
         $place->setPlacePrice($this->faker->randomNumber(3, false));
         $place->setPlaceID($this->faker->randomNumber(3, false));
-
-    
-
         $manager->persist($place);
      }
         $manager->flush();
