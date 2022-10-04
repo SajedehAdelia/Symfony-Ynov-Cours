@@ -29,7 +29,7 @@ class PlaceController extends AbstractController
      * Calling all the information together
      */
    
-    #[Route('/api/place', name: 'place.getAll')]
+    #[Route('/api/place', name: 'place.getAll', methods:["GET"])]
     public function getAllplace(PlaceNameRepository $repository, SerializerInterface $serializer): JsonResponse
     {
         $place = $repository->findAll();
@@ -78,18 +78,15 @@ class PlaceController extends AbstractController
 
     }
 
-    #[Route('/api/place/{id}', name: 'place.turnOff', methods: ['POST'])]
-    public function createplaceName(Request $request, EntityManagerInterface $entityManager, SerializerInterface $serializer) :JsonResponse
+    #[Route('/api/place', name: 'place.turnOff', methods: ['POST'])]
+    public function createPlaceName(Request $request, EntityManagerInterface $entityManager, SerializerInterface $serializer) :JsonResponse
     {
-        $event = $serializer->deserialize($request->getContent(), PlaceName::class,'json' );
-        
-        $placename = new  PlaceName();
-        $placename->setPlaceID("API");
-        $placename->setStatusPlaceName(true);
-        $entityManager->persist($placename);
-
-
-        return new JsonResponse(null, Response::HTTP_CREATED, []);
+        $placeName = $serializer->deserialize($request->getContent(), PlaceName::class,'json' );
+        $placeName->setStatusPlaceName(true);
+        $entityManager->persist($placeName);
+        $entityManager->flush();
+        $jsonPlaceName = $serializer->serialize($placeName, 'json');
+        return new JsonResponse($jsonPlaceName, Response::HTTP_CREATED, [], true);
     }
 
     #[Route('/api/place/{id}', name: 'place.update', methods: ['PUT'])]
@@ -99,7 +96,7 @@ class PlaceController extends AbstractController
     {
         $uptadePlaceName = $serializer->deserialize($request->getContent(), PlaceName::class,'json', 
             [AbstractNormalizer::OBJECT_TO_POPULATE=> $placename]);
-            
+
             $content = $request->toArray();
             $place = $repository->find($content["idplace"] ?? -1);       
             $uptadePlaceName->setStatusPlaceName(true);

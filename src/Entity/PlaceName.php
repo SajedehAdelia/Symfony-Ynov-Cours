@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PlaceNameRepository;
 use Doctrine\ORM\Mapping as ORM;
 use symfony\Component\Serializer\Annotation\Groups;
+use symfony\component\validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PlaceNameRepository::class)]
 class PlaceName
