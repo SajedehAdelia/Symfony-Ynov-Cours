@@ -24,6 +24,9 @@ class PlaceName
     #[ORM\Column(length: 255)]
     private ?string $PlaceID = null;
 
+    #[ORM\Column]
+    private ?bool $statusPlaceName = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -61,6 +64,18 @@ class PlaceName
     public function setPlaceID(string $PlaceID): self
     {
         $this->PlaceID = $PlaceID;
+
+        return $this;
+    }
+
+    public function isStatusPlaceName(): ?bool
+    {
+        return $this->statusPlaceName;
+    }
+
+    public function setStatusPlaceName(bool $statusPlaceName): self
+    {
+        $this->statusPlaceName = $statusPlaceName;
 
         return $this;
     }
