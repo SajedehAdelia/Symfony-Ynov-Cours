@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\PlaceName;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,12 +18,10 @@ class PlaceController extends AbstractController
         ]);
     }
 
-    #[Route('/place', name: 'place.getAll')]
-    public function getAllplace(): JsonResponse
+    public function getAllplace(PlaceName $repository, SerializerInterface $serializer): JsonResponse
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/PlaceController.php',
-        ]);
+        $place  =  $repository->findAll();
+
+        return new JsonResponse($place, Response::HTTP_OK,[], false);
     }
 }
