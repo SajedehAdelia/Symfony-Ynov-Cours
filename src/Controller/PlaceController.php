@@ -47,10 +47,10 @@ class PlaceController extends AbstractController
         new JsonResponse(null, Response::HTTP_NOT_FOUND);
     }*/
 
-    //this one is one working :) ask later!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //this one is not working :) ask later!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #[Route('/api/place/{id}', name: 'place.get', methods: ['GET'])]
     #[ParamConverter('place', options : ["id"=>"idPlace"])]
-    public function getPlaces(int $id, PlaceName $place, PlaceNameRepository $repository, SerializerInterface $serializer):JsonResponse
+    public function getPlaces(int $id, PlaceNameRepository $repository, SerializerInterface $serializer):JsonResponse
     {
         $place = $repository->find($id);
         $jsonPlaceName = $serializer->serialize($place, 'json') ;
@@ -77,7 +77,11 @@ class PlaceController extends AbstractController
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
 
     }
-
+/***a major question : the functions like remove,flush, getContect ect ...  they are defined where? Cause for example  i understand setstatut 
+ * was explained in PlaceName.php, but the other functions come from where exacly?
+ * Also why in createPlace we have name as place.turnoff?
+ * 
+ */
     #[Route('/api/place', name: 'place.turnOff', methods: ['POST'])]
     public function createPlaceName(Request $request, EntityManagerInterface $entityManager, SerializerInterface $serializer) :JsonResponse
     {
@@ -89,20 +93,20 @@ class PlaceController extends AbstractController
         return new JsonResponse($jsonPlaceName, Response::HTTP_CREATED, [], true);
     }
 
-    #[Route('/api/place/{id}', name: 'place.update', methods: ['PUT'])]
-    #[ParamConverter("place", options : ["id"=>"idPlace"])]
-    public function updateplaceName(PlaceName $placename, Request $request, PlaceNameRepository $repository,
-                                    EntityManagerInterface $entityManager, SerializerInterface $serializer) :JsonResponse
+    #[Route('/api/place/{idPlace}', name: 'place.update', methods: ['PUT'])]
+    #[ParamConverter("placeName", options : ["id"=>"idPlace"])]
+    public function updateplaceName(PlaceName $placeName, Request $request, PlaceNameRepository $repository,
+                                    EntityManagerInterface $entityManager, SerializerInterface $serializer): JsonResponse
     {
-        $uptadePlaceName = $serializer->deserialize($request->getContent(), PlaceName::class,'json', 
-            [AbstractNormalizer::OBJECT_TO_POPULATE=> $placename]);
+            $uptadePlaceName = $serializer->deserialize($request->getContent(), PlaceName::class,'json', 
+            [AbstractNormalizer::OBJECT_TO_POPULATE=> $placeName]);
 
-            $content = $request->toArray();
-            $place = $repository->find($content["idplace"] ?? -1);       
+            $content = $request->toArray();       
             $uptadePlaceName->setStatusPlaceName(true);
-            $placename->setPlaceID($place);
-            $entityManager->persist($placename);
+            $entityManager->persist($placeName);
             $entityManager->flush();
+            $jsonPlaceName = $serializer->serialize($uptadePlaceName, 'json');
+            return new JsonResponse($jsonPlaceName, Response::HTTP_RESET_CONTENT, [], true);  //and this
     }
 }       
     
