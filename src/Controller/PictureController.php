@@ -46,7 +46,7 @@ class PictureController extends AbstractController/**
 
 
 
-        dd($file::class);
+        //dd($file::class);
 
         return $this->json([
             'message' => 'Welcome to your new controller!',

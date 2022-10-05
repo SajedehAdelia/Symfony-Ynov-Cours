@@ -19,15 +19,15 @@ security:
 
         login: 
             pattern: ^/api/login
-            statless: true
+            stateless: true
             json_login:
                 check_path: /api/login_check
-                success_handle: lexik_jwt_authentication.handler.authentication_success    
-                failer_handle: lexik_jwt_authentication.handler.authentication_failure
+                success_handler: lexik_jwt_authentication.handler.authentication_success    
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
         api:
-        pattern: ^/api
-        statless: true
-        jwt: ~
+            pattern: ^/api
+            stateless: true
+            jwt: ~
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 

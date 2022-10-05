@@ -5,15 +5,16 @@ namespace App\Controller;
 use App\Entity\PlaceName;
 use App\Repository\PlaceNameRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Console\Descriptor\JsonDescriptor;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 class PlaceController extends AbstractController
 {
@@ -83,6 +84,7 @@ class PlaceController extends AbstractController
  * 
  */
     #[Route('/api/place', name: 'place.turnOff', methods: ['POST'])]
+    #[IsGranted('ADMIN', message: 'Hahahaaaaaa you cannot get it!')]
     public function createPlaceName(Request $request, EntityManagerInterface $entityManager, SerializerInterface $serializer) :JsonResponse
     {
         $placeName = $serializer->deserialize($request->getContent(), PlaceName::class,'json' );
