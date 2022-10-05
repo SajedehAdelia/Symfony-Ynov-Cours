@@ -2,11 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\PictureRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PictureRepository;
+use vich\UploaderBundle\Annotation as vich;
+use Symfony\Component\HttpFoundation\File\File;
 
 #[ORM\Entity(repositoryClass: PictureRepository::class)]
+/**
+ * @vich\Uploadable()
+ */
 class Picture
 {
     #[ORM\Id]
@@ -28,6 +33,12 @@ class Picture
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $uploadDate = null;
+ /**
+     * @var File|null
+     * @vich\UploadableField(maping="images", fileNameProperty="realPath")
+     */
+
+    private $file;
 
     public function getId(): ?int
     {
@@ -93,4 +104,17 @@ class Picture
 
         return $this;
     }
+
+    public function getFile(): ?File
+    {
+        return $this->file;
+    }
+
+    public function setFile($file): ?Picture
+    {
+        $this->file = $file;
+
+        return $this;
+    }
+    
 }
