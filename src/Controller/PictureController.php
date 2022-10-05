@@ -16,7 +16,12 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
-class PictureController extends AbstractController
+class PictureController extends AbstractController/**
+ * 
+ * @param mixed $name
+ */
+
+
 {
     #[Route('/', name: 'app.root')]
     public function index(){
