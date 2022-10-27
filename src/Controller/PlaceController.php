@@ -33,7 +33,7 @@ class PlaceController extends AbstractController
     #[Route('/api/place', name: 'place.getAll', methods:["GET"])]
     public function getAllplace(PlaceNameRepository $repository, SerializerInterface $serializer): JsonResponse
     {
-        $place = $repository->findAll();
+        $place = $repository->findAll()->where('status', true);
         $jsonPlaceName = $serializer->serialize($place, 'json');
         return new JsonResponse($jsonPlaceName, Response::HTTP_OK, [], true);
     }
