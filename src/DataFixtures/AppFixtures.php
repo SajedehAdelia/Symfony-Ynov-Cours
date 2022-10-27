@@ -46,13 +46,13 @@ class AppFixtures extends Fixture
        // $places = file_get_contents("./france.json");
 
        
-        $adminUser = new User();
-        $password = 'pasword';
-        $adminUser->setUsername("admin")
+        $userUser = new User();
+        $password = 'password';
+        $userUser->setUsername("admin")
             ->setRoles(["ADMIN"])
-            ->setPassword($this->userPasswordHasher->hashPassword($adminUser, $password));
-            $manager->persist($adminUser);
-            
+            ->setPassword($this->userPasswordHasher->hashPassword($userUser, $password));
+            $manager->persist($userUser);
+
     
         for($i = 1; $i< 100; $i++) {
        

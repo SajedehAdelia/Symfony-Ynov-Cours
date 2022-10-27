@@ -103,7 +103,7 @@ class PlaceController extends AbstractController
             $uptadePlaceName = $serializer->deserialize($request->getContent(), PlaceName::class,'json', 
             [AbstractNormalizer::OBJECT_TO_POPULATE=> $placeName]);
 
-            $content = $request->toArray();       
+            $request->toArray();       
             $uptadePlaceName->setStatusPlaceName(true);
             $entityManager->persist($placeName);
             $entityManager->flush();
